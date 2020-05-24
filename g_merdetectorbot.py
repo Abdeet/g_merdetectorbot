@@ -6,7 +6,7 @@ import hashlib
 # FUNCTIONS ALLOWING MANAGEMENT OF POSTS REPLIED TO
 
 def posts_replied_to():
-    with open(os.getcwd()+"\posts_replied_to.txt","r") as list_of_posts_replied_to:
+    with open(os.getcwd()+"/posts_replied_to.txt","r") as list_of_posts_replied_to:
         list_of_posts_replied_to = list_of_posts_replied_to.read()
         list_of_posts_replied_to = list_of_posts_replied_to.split(",")
         list_of_posts_replied_to = list(filter(None, list_of_posts_replied_to))
@@ -19,7 +19,7 @@ def in_posts_replied_to(post_id):
 
 def add_to_posts_replied_to(post_id):
     list_of_posts_replied_to = posts_replied_to()
-    with open(os.getcwd()+"\posts_replied_to.txt","w") as list_of_posts_replied_to_file:       
+    with open(os.getcwd()+"/posts_replied_to.txt","w") as list_of_posts_replied_to_file:       
         list_of_posts_replied_to.append(post_id)
         list_of_posts_replied_to = ",".join(list_of_posts_replied_to)
         list_of_posts_replied_to_file.write(list_of_posts_replied_to)
@@ -27,7 +27,7 @@ def add_to_posts_replied_to(post_id):
 # FUNCTIONS ALLOWING MANAGEMENT OF COMMENTS REPLIED TO
 
 def comments_replied_to():
-    with open(os.getcwd()+"\comments_replied_to.txt","r") as list_of_comments_replied_to:
+    with open(os.getcwd()+"/comments_replied_to.txt","r") as list_of_comments_replied_to:
         list_of_comments_replied_to = list_of_comments_replied_to.read()
         list_of_comments_replied_to = list_of_comments_replied_to.split(",")
         list_of_comments_replied_to = list(filter(None, list_of_comments_replied_to))
@@ -40,7 +40,7 @@ def in_comments_replied_to(comment_id):
 
 def add_to_comments_replied_to(comment_id):
     list_of_comments_replied_to = comments_replied_to()
-    with open(os.getcwd()+"\comments_replied_to.txt","w") as list_of_comments_replied_to_file:       
+    with open(os.getcwd()+"/comments_replied_to.txt","w") as list_of_comments_replied_to_file:       
         list_of_comments_replied_to.append(comment_id)
         list_of_comments_replied_to = ",".join(list_of_comments_replied_to)
         list_of_comments_replied_to_file.write(list_of_comments_replied_to)
@@ -57,9 +57,20 @@ def get_mentions(comment_body):
 # THIS IS THE THING YOU'VE ALL BEEN WAITING FOR... THE G_MER DETECTOR CODE
 # THE WORDS HAVE BEEN HASHED SO THAT YOU DON'T HAVE TO READ THE DESPICABLE THINGS THESE G_MERS WRITE 
 
+def get_g_mer_hashes():
+    with open(os.getcwd()+"/g_mer_hashes.txt","r+") as g_mer_hashes:
+        return g_mer_hashes.split(",")
+
+def add_to_g_mer_hashes(word):
+    word_hashed = str(hashlib.sha256(word.lower()).encode().hexdigest())
+    g_mer_hashes = get_g_mer_hashes()
+    g_mer_hashes.append(word_hashed)
+    g_mer_hashes = ",".join(g_mer_hashes)
+    with open(os.getcwd() + "/gamer_hashes.txt", "w+") as g_mer_hashes_file:
+        g_mer_hashes_file.write(g_mer_hashes)
+
 def get_g_mer_count_for_comment(comment_body):
-    g_mer_hashes = ['cec8478d2feedfa7bda5501face1aab64368b9876ea5149ec11b2b9df4a2e568','904294d8c54b1c63e40832fa1d95bcde534b310df6d42882ce4baf28f3e0184a',
-    'ab6b786aa204199a39492078eab36895cfa6b650d969c79f85a0055d461a0c52','120f6e5b4ea32f65bda68452fcfaaef06b0136e1d0e4a6f60bc3771fa0936dd6','08a841e996781e9e77d30a4e4420a8f501a280b00624e6d1224bf54aaff73eba']
+    g_mer_hashes = get_g_mer_hashes()
     g_mer_count = 0
     words = re.finditer(r'[a-zA-Z]+',comment_body.lower())
     words_hashed = [] 
