@@ -106,12 +106,13 @@ for message in reddit.inbox.unread():
         if len(all_mentions) == 1:
             g_mer_score = compute_g_mer_score(all_mentions[0])
             g_mer_name = all_mentions[0]
+            message.reply(f"**Suspected G\*mer: {g_mer_name}**\n\n  **G\*mer Score: _{g_mer_score}_** \n\n ^Calculated ^using ^user's ^last ^100 ^comments, ^searching ^for [^these ^words](https://www.reddit.com/user/G_merDetectorBot/comments/gowikd/) \n\n ^Send ^a ^private ^message ^to ^suggest ^more ^words ^to ^add. \n\n ^Created ^by ^u/Abdeet ^to ^rid ^the ^world ^of ^the ^evils ^of ^g\*ming.")
         elif len(all_mentions) == 0:
             parent_author = str(message.parent().author).lower()
             g_mer_score = compute_g_mer_score(parent_author)
             g_mer_name = "u/" + parent_author
-        if(parent_author == "g_merdetectorbot"):
-            message.reply(f"**u/G_merDetectorBot** \n\n By *u/Abdeet* \n\n ")
-        else:
-            message.reply(f"**Suspected G\*mer: {g_mer_name}**\n\n  **G\*mer Score: _{g_mer_score}_** \n\n ^Calculated ^using ^user's ^last ^100 ^comments, ^searching ^for [^these ^words](https://www.reddit.com/user/G_merDetectorBot/comments/gowikd/) \n\n ^Send ^a ^private ^message ^to ^suggest ^more ^words ^to ^add. \n\n ^Created ^by ^u/Abdeet ^to ^rid ^the ^world ^of ^the ^evils ^of ^g\*ming.")
+            if(parent_author == "g_merdetectorbot"):
+                message.reply(f"**u/G_merDetectorBot** \n\n By *u/Abdeet* \n\n ")
+            else:
+                message.reply(f"**Suspected G\*mer: {g_mer_name}**\n\n  **G\*mer Score: _{g_mer_score}_** \n\n ^Calculated ^using ^user's ^last ^100 ^comments, ^searching ^for [^these ^words](https://www.reddit.com/user/G_merDetectorBot/comments/gowikd/) \n\n ^Send ^a ^private ^message ^to ^suggest ^more ^words ^to ^add. \n\n ^Created ^by ^u/Abdeet ^to ^rid ^the ^world ^of ^the ^evils ^of ^g\*ming.")
         message.mark_read()
