@@ -59,14 +59,15 @@ def get_mentions(comment_body):
 
 def get_g_mer_hashes():
     with open(os.getcwd()+"/g_mer_hashes.txt","r+") as g_mer_hashes:
-        return g_mer_hashes.split(",")
+        return g_mer_hashes.read().split(",")
 
 def add_to_g_mer_hashes(word):
-    word_hashed = str(hashlib.sha256(word.lower()).encode().hexdigest())
+    word_hashed = str(hashlib.sha256(word.lower().encode()).hexdigest())
+    print(word_hashed)
     g_mer_hashes = get_g_mer_hashes()
     g_mer_hashes.append(word_hashed)
     g_mer_hashes = ",".join(g_mer_hashes)
-    with open(os.getcwd() + "/gamer_hashes.txt", "w+") as g_mer_hashes_file:
+    with open(os.getcwd() + "/g_mer_hashes.txt", "w+") as g_mer_hashes_file:
         g_mer_hashes_file.write(g_mer_hashes)
 
 def get_g_mer_count_for_comment(comment_body):
@@ -75,7 +76,7 @@ def get_g_mer_count_for_comment(comment_body):
     words = re.finditer(r'[a-zA-Z]+',comment_body.lower())
     words_hashed = [] 
     for x in words:
-        words_hashed.append(hashlib.sha256(x[0].strip().encode()).hexdigest())
+        words_hashed.append(str(hashlib.sha256(x[0].strip().encode()).hexdigest()))
     for x in words_hashed:
         if x in g_mer_hashes:
             g_mer_count += 1
