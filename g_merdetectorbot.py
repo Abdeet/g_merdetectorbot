@@ -82,15 +82,18 @@ def get_g_mer_count_for_comment(comment_body):
             g_mer_count += 1
     return g_mer_count
 
-
-def compute_g_mer_score(user):
+def test_g_mer(user, subreddit):
     user = user.strip("u/")
-    total_g_mer_count  = 0
+    total_g_mer_count = 0
+    total_karma_in_comments_on_subreddit = 0
+    comments_on_subreddit = 0
     for comment in reddit.redditor(user).comments.new(limit = 100):
         total_g_mer_count += get_g_mer_count_for_comment(comment.body)
-    return total_g_mer_count
-
-
+        if comment.subreddit == subreddit:
+            comments_on_subreddit += 1
+            total_karma_in_comments_on_subreddit += comment.score
+    avg_comment_score_in_subreddit = total_karma_in_comments_on_subreddit / comments_on_subreddit
+    return total_g_mer_count, avg_comment_score_in_subreddit
 
 
 #START OF CODE
@@ -103,18 +106,19 @@ for message in reddit.inbox.unread():
         all_mentions.pop(all_mentions.index("u/g_merdetectorbot"))
         print(all_mentions)
         g_mer_score = 0
+        avg_karma_in_subreddit = 0
         g_mer_name = ""
         if len(all_mentions) == 1:
-            g_mer_score = compute_g_mer_score(all_mentions[0])
+            g_mer_score , avg_karma_in_subreddit = test_g_mer(all_mentions[0],message.subreddit)
             g_mer_name = all_mentions[0]
         elif len(all_mentions) == 0:
             parent_author = str(message.parent().author).lower()
-            g_mer_score = compute_g_mer_score(parent_author)
+            g_mer_score , avg_karma_in_subreddit = test_g_mer(parent_author,message.subreddit)
             g_mer_name = "u/" + parent_author
         if g_mer_name == "u/g_merdetectorbot":
             message.reply(f"**u/G_merDetectorBot** \n\n Check out the new subreddit: r/G_merDetectorBot \n\n [^How ^the ^bot ^works ](https://www.reddit.com/user/G_merDetectorBot/comments/gowq2d/) \n\n [^Words ^the ^bot ^detects ](https://www.reddit.com/user/G_merDetectorBot/comments/gowikd/) \n\n [^Message ^the ^creator ](https://www.reddit.com/message/compose/?to=abdeet) \n\n [^Github ^link](https://github.com/Abdeet/g_merdetectorbot)")
         elif g_mer_name == "u/abdeet":
             message.reply(f"u/Abdeet created this bot. \n\n God says all g\*mers will rot. \n\n G\*ming is a sin, \n\n Anti-g\*ming will win, \n\n This limerick sure hits the spot. \n\n ^Check ^out ^the ^subreddit: ^r/G_merDetectorBot \n\n [Github link](https://github.com/Abdeet/g_merdetectorbot)")
         else:
-            message.reply(f"**Suspected G\*mer: {g_mer_name}**\n\n  **G\*mer Score: _{g_mer_score}_** \n\n Check out the subreddit: r/G_merDetectorBot \n\n ^Calculated ^using ^user's ^last ^100 ^comments, ^searching ^for [^these ^words ](https://www.reddit.com/user/G_merDetectorBot/comments/gowikd/) \n\n [^Send ^a ^private ^message ](https://www.reddit.com/message/compose/?to=abdeet) ^to ^suggest ^more ^words ^to ^add. \n\n ^Created ^to ^rid ^the ^world ^of ^the ^evils ^of ^g\*ming.")
+            message.reply(f"**Suspected G\*mer: {g_mer_name}**\n\n  **G\*mer Score: _{g_mer_score}_** \n\n **Average Comment Score in {message.subreddit}: _{avg_karma_in_subreddit}_** \n\n Check out the subreddit: r/G_merDetectorBot \n\n ^Calculated ^using ^user's ^last ^100 ^comments, ^searching ^for [^these ^words ](https://www.reddit.com/user/G_merDetectorBot/comments/gowikd/) \n\n [^Send ^a ^private ^message ](https://www.reddit.com/message/compose/?to=abdeet) ^to ^suggest ^more ^words ^to ^add. \n\n ^Created ^to ^rid ^the ^world ^of ^the ^evils ^of ^g\*ming.")
     message.mark_read()
