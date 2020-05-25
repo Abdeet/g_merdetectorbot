@@ -48,9 +48,11 @@ def add_to_comments_replied_to(comment_id):
 # FUNCTION TO PULL ALL MENTIONS FROM A COMMENT
 
 def get_mentions(comment_body):
+    #Uses RegEx to get users in the u/user format. Works with /u/format as well.
     mentions_in_comment = re.finditer(r'(\s|\A|\/)u\/[a-zA-Z0-9_-]{3,20}',comment_body)
     mentions_stripped = []
     for x in mentions_in_comment:
+        #Cleans up mention to make them uniform
         mentions_stripped.append(x[0].strip().strip("/"))
     return mentions_stripped
 
@@ -62,6 +64,7 @@ def get_g_mer_hashes():
         return g_mer_hashes.read().split(",")
 
 def add_to_g_mer_hashes(word):
+    #This is just for fun. I made the whole comparison system run on sha256 hashes. This is the way I hash the words
     word_hashed = str(hashlib.sha256(word.lower().encode()).hexdigest())
     print(word_hashed)
     g_mer_hashes = get_g_mer_hashes()
@@ -73,15 +76,19 @@ def add_to_g_mer_hashes(word):
 def get_g_mer_count_for_comment(comment_body):
     g_mer_hashes = get_g_mer_hashes()
     g_mer_count = 0
+    #This RegEx gets all the words from the comment. The downside is it prevents me from searching for multi word phrases. I could modify it to work for that but I don't really want to.
     words = re.finditer(r'[a-zA-Z]+',comment_body.lower())
     words_hashed = [] 
     for x in words:
+        #This just takes every single word in the comment and converts it to a hash
         words_hashed.append(str(hashlib.sha256(x[0].strip().encode()).hexdigest()))
     for x in words_hashed:
         if x in g_mer_hashes:
             g_mer_count += 1
     return g_mer_count
 
+#Previous versions of the code had another function that colculator the g_mer_count, but this method only requires looping through the comments once, which is quicker.
+#This basically gets the total karma of a user on a subreddit and divides by the number of comments made. It doesn't round right now because I think it shows a fuller picture like this.
 def test_g_mer(user, subreddit):
     user = user.strip("u/")
     total_g_mer_count = 0
@@ -96,28 +103,42 @@ def test_g_mer(user, subreddit):
     return total_g_mer_count, avg_comment_score_in_subreddit
 
 
-#START OF CODE
-
+#This is how you start the reddit instance. I might add a template praw.ini file to show how it works, but right now it is in .gitignore because it has personal info like password.
 reddit = praw.Reddit('bot1')
 
-for message in reddit.inbox.unread():
-    all_mentions = get_mentions(message.body.lower())
-    if "u/g_merdetectorbot" in all_mentions:
-        all_mentions.pop(all_mentions.index("u/g_merdetectorbot"))
+#This is where the magic happens
+
+def reply_to_comment(message, mentions):
+    if "u/g_merdetectorbot" in mentions:
+        #Removes u/g_merdetectorbot from the mentions
+        mentions.pop(mentions.index("u/g_merdetectorbot"))
         g_mer_score = 0
         avg_karma_in_subreddit = 0
         g_mer_name = ""
-        if len(all_mentions) == 1:
-            g_mer_score , avg_karma_in_subreddit = test_g_mer(all_mentions[0],message.subreddit)
-            g_mer_name = all_mentions[0]
-        elif len(all_mentions) == 0:
+        #Checks if another user is mentioned in the comment, and if so makes them the test subject. Otherwise checks who the comment was a reply to and makes them the test subject
+        if len(mentions) == 1:
+            g_mer_score , avg_karma_in_subreddit = test_g_mer(mentions[0],message.subreddit)
+            g_mer_name = mentions[0]
+        elif len(mentions) == 0:
             parent_author = str(message.parent().author).lower()
             g_mer_score , avg_karma_in_subreddit = test_g_mer(parent_author,message.subreddit)
             g_mer_name = "u/" + parent_author
+        #If test subject is u/g_merdetectorbot it replies with a custom message
         if g_mer_name == "u/g_merdetectorbot":
             message.reply(f"**u/G_merDetectorBot** \n\n Check out the new subreddit: r/G_merDetectorBot \n\n [^How ^the ^bot ^works ](https://www.reddit.com/user/G_merDetectorBot/comments/gowq2d/) \n\n [^Words ^the ^bot ^detects ](https://www.reddit.com/user/G_merDetectorBot/comments/gowikd/) \n\n [^Message ^the ^creator ](https://www.reddit.com/message/compose/?to=abdeet) \n\n [^Github ^link](https://github.com/Abdeet/g_merdetectorbot)")
+        #Same with if test subject is u/Abdeet
         elif g_mer_name == "u/abdeet":
             message.reply(f"u/Abdeet created this bot. \n\n God says all g\*mers will rot. \n\n G\*ming is a sin, \n\n Anti-g\*ming will win, \n\n This limerick sure hits the spot. \n\n ^Check ^out ^the ^subreddit: ^r/G_merDetectorBot \n\n [Github link](https://github.com/Abdeet/g_merdetectorbot)")
+        #Standard message
         else:
             message.reply(f"**Suspected G\*mer: {g_mer_name}**\n\n  **G\*mer Score: _{g_mer_score}_** \n\n **Average Comment Score in r/{message.subreddit}: _{avg_karma_in_subreddit}_** \n\n Check out the subreddit: r/G_merDetectorBot \n\n ^Calculated ^using ^user's ^last ^100 ^comments, ^searching ^for [^these ^words ](https://www.reddit.com/user/G_merDetectorBot/comments/gowikd/) \n\n [^Send ^a ^private ^message ](https://www.reddit.com/message/compose/?to=abdeet) ^to ^suggest ^more ^words ^to ^add. \n\n ^Created ^to ^rid ^the ^world ^of ^the ^evils ^of ^g\*ming.")
-    message.mark_read()
+
+#Runs the code
+def main():
+    for message in reddit.inbox.unread():
+        all_mentions = get_mentions(message.body.lower())
+        reply_to_comment(message, all_mentions)
+        message.mark_read()
+
+#Calls main, and basically all the other code
+main()
