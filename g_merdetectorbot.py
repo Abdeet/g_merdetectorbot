@@ -111,8 +111,10 @@ for message in reddit.inbox.unread():
             parent_author = str(message.parent().author).lower()
             g_mer_score = compute_g_mer_score(parent_author)
             g_mer_name = "u/" + parent_author
-        if(g_mer_name == "u/g_merdetectorbot"):
-            message.reply(f"**u/G_merDetectorBot** \n\n By *u/Abdeet* \n\n ")
+        if g_mer_name == "u/g_merdetectorbot":
+            message.reply(f"**u/G_merDetectorBot** \n\n [^How ^the ^bot ^works](https://www.reddit.com/user/G_merDetectorBot/comments/gowq2d/) \n\n [^Words ^the ^bot ^detects](https://www.reddit.com/user/G_merDetectorBot/comments/gowikd/) \n\n [^Message ^the ^creator](https://www.reddit.com/message/compose/?to=abdeet)")
+        elif g_mer_name == "u/abdeet":
+            message.reply(f"u/Abdeet created this bot. \n\n God says all g\*mers will rot. \n\n G\*ming is a sin, \n\n Anti-g\*ming will win, \n\n This limerick sure hits the spot.")
         else:
-            message.reply(f"**Suspected G\*mer: {g_mer_name}**\n\n  **G\*mer Score: _{g_mer_score}_** \n\n ^Calculated ^using ^user's ^last ^100 ^comments, ^searching ^for [^these ^words](https://www.reddit.com/user/G_merDetectorBot/comments/gowikd/) \n\n ^Send ^a ^private ^message ^to ^suggest ^more ^words ^to ^add. \n\n ^Created ^by ^u/Abdeet ^to ^rid ^the ^world ^of ^the ^evils ^of ^g\*ming.")
+            message.reply(f"**Suspected G\*mer: {g_mer_name}**\n\n  **G\*mer Score: _{g_mer_score}_** \n\n ^Calculated ^using ^user's ^last ^100 ^comments, ^searching ^for [^these ^words](https://www.reddit.com/user/G_merDetectorBot/comments/gowikd/) \n\n [^Send ^a ^private ^message](https://www.reddit.com/message/compose/?to=abdeet) ^to ^suggest ^more ^words ^to ^add. \n\n ^Created ^to ^rid ^the ^world ^of ^the ^evils ^of ^g\*ming.")
     message.mark_read()
