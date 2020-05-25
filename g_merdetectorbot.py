@@ -48,7 +48,7 @@ def add_to_comments_replied_to(comment_id):
 # FUNCTION TO PULL ALL MENTIONS FROM A COMMENT
 
 def get_mentions(comment_body):
-    mentions_in_comment = re.finditer(r'(\s|\A|\/)u\/[a-zA-Z0-9_-]{3,20}(\s|\Z)',comment_body)
+    mentions_in_comment = re.finditer(r'(\s|\A|\/)u\/[a-zA-Z0-9_-]{3,20}',comment_body)
     mentions_stripped = []
     for x in mentions_in_comment:
         mentions_stripped.append(x[0].strip().strip("/"))
@@ -101,6 +101,7 @@ for message in reddit.inbox.unread():
     all_mentions = get_mentions(message.body.lower())
     if "u/g_merdetectorbot" in all_mentions:
         all_mentions.pop(all_mentions.index("u/g_merdetectorbot"))
+        print(all_mentions)
         g_mer_score = 0
         g_mer_name = ""
         if len(all_mentions) == 1:
