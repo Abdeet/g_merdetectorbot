@@ -112,7 +112,7 @@ for message in reddit.inbox.unread():
             g_mer_score = compute_g_mer_score(parent_author)
             g_mer_name = "u/" + parent_author
         if g_mer_name == "u/g_merdetectorbot":
-            message.reply(f"**u/G_merDetectorBot** \n\n Check out the new subreddit: r/G_merDetectorBot \n\n [^How ^the ^bot ^works](https://www.reddit.com/user/G_merDetectorBot/comments/gowq2d/) \n\n [^Words ^the ^bot ^detects ](https://www.reddit.com/user/G_merDetectorBot/comments/gowikd/) \n\n [^Message ^the ^creator](https://www.reddit.com/message/compose/?to=abdeet) \n\n [Github link](https://github.com/Abdeet/g_merdetectorbot)")
+            message.reply(f"**u/G_merDetectorBot** \n\n Check out the new subreddit: r/G_merDetectorBot \n\n [^How ^the ^bot ^works ](https://www.reddit.com/user/G_merDetectorBot/comments/gowq2d/) \n\n [^Words ^the ^bot ^detects ](https://www.reddit.com/user/G_merDetectorBot/comments/gowikd/) \n\n [^Message ^the ^creator ](https://www.reddit.com/message/compose/?to=abdeet) \n\n [^Github ^link](https://github.com/Abdeet/g_merdetectorbot)")
         elif g_mer_name == "u/abdeet":
             message.reply(f"u/Abdeet created this bot. \n\n God says all g\*mers will rot. \n\n G\*ming is a sin, \n\n Anti-g\*ming will win, \n\n This limerick sure hits the spot. \n\n ^Check ^out ^the ^subreddit: ^r/G_merDetectorBot \n\n [Github link](https://github.com/Abdeet/g_merdetectorbot)")
         else:
