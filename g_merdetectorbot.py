@@ -104,7 +104,6 @@ for message in reddit.inbox.unread():
     all_mentions = get_mentions(message.body.lower())
     if "u/g_merdetectorbot" in all_mentions:
         all_mentions.pop(all_mentions.index("u/g_merdetectorbot"))
-        print(all_mentions)
         g_mer_score = 0
         avg_karma_in_subreddit = 0
         g_mer_name = ""
