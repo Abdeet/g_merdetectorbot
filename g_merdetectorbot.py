@@ -151,6 +151,8 @@ def reply_to_comment(message, mentions):
             g_mer_word_table_string = "| Word | Count | \n\n ---------- \n\n"
             g_mer_words = frequency_of_g_mer_words.keys()
             g_mer_frequencies = frequency_of_g_mer_words.values()
+            print(g_mer_words)
+            print(g_mer_frequencies)
             for x in range(len(g_mer_words)):
                 g_mer_word_table_string += f"| {g_mer_words[x]} | {g_mer_frequencies[x]} | \n\n "
         #If test subject is u/g_merdetectorbot it replies with a custom message
