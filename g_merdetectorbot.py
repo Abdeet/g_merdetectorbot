@@ -141,6 +141,7 @@ def reply_to_comment(message, mentions):
             g_mer_score , avg_karma_in_subreddit , frequency_of_g_mer_words = test_g_mer(parent_author,message.subreddit)
             g_mer_name = "u/" + parent_author
         #Creates table using markdown if there are words to make table with
+        g_mer_word_table_string = ""
         if(g_mer_score > 0):
             g_mer_word_table_string = "| Word | Count | \n\n ---------- \n\n"
             g_mer_words = frequency_of_g_mer_words.keys()
