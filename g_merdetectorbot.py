@@ -115,6 +115,7 @@ def test_g_mer(user, subreddit):
         if comment.subreddit == subreddit:
             comments_on_subreddit += 1
             total_karma_in_comments_on_subreddit += comment.score
+        print(g_mer_count_for_comment)
         total_g_mer_count += g_mer_count_for_comment
     frequency_of_g_mer_words = collections.Counter(censored_list)
     if comments_on_subreddit > 0:avg_comment_score_in_subreddit = total_karma_in_comments_on_subreddit / comments_on_subreddit 
