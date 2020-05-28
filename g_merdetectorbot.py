@@ -89,8 +89,8 @@ def get_g_mer_count_for_comment(comment_body):
     for x in words_hashed:
         if x in g_mer_hashes:
             g_mer_count += 1
-        word = words_list[words_hashed.index(x)]
-        g_mer_words_censored.append(censor_g_mer_words(word))
+            word = words_list[words_hashed.index(x)]
+            g_mer_words_censored.append(censor_g_mer_words(word))
     print("g_mer count: " + str(g_mer_count))
     return g_mer_count, g_mer_words_censored
 
@@ -149,8 +149,8 @@ def reply_to_comment(message, mentions):
         g_mer_word_table_string = ""
         if(g_mer_score > 0):
             g_mer_word_table_string = "| Word | Count | \n\n ---------- \n\n"
-            g_mer_words = frequency_of_g_mer_words.keys()
-            g_mer_frequencies = frequency_of_g_mer_words.values()
+            g_mer_words = list(frequency_of_g_mer_words.keys())
+            g_mer_frequencies = list(frequency_of_g_mer_words.values())
             print(g_mer_words)
             print(g_mer_frequencies)
             for x in range(len(g_mer_words)):
