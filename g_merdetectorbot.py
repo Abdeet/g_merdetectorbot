@@ -79,6 +79,7 @@ def get_g_mer_count_for_comment(comment_body):
     g_mer_count = 0
     #This RegEx gets all the words from the comment. The downside is it prevents me from searching for multi word phrases. I could modify it to work for that but I don't really want to.
     words = re.finditer(r'[a-zA-Z]+',comment_body.lower())
+    words_list = {x for x in words}
     words_hashed = [] 
     g_mer_words_censored = []
     for x in words:
@@ -87,7 +88,7 @@ def get_g_mer_count_for_comment(comment_body):
     for x in words_hashed:
         if x in g_mer_hashes:
             g_mer_count += 1
-        word = words[words_hashed.index(x)]
+        word = words_list[words_hashed.index(x)]
         g_mer_words_censored.append(censor_g_mer_words(word))
     return g_mer_count, g_mer_words_censored
 
