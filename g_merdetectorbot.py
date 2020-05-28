@@ -109,7 +109,7 @@ def test_g_mer(user, subreddit):
     censored_list_for_comment = []
     censored_list = []
     for comment in reddit.redditor(user).comments.new(limit = 100):
-        g_mer_count_for_comment, censored_list_for_comment == get_g_mer_count_for_comment(comment.body)
+        g_mer_count_for_comment, censored_list_for_comment = get_g_mer_count_for_comment(comment.body)
         for x in censored_list_for_comment:
             censored_list.append(x)
         if comment.subreddit == subreddit:
