@@ -96,7 +96,7 @@ def get_g_mer_count_for_comment(comment_body):
 
 #New functionality to list g*mer words used
 def censor_g_mer_words(word):
-    return word[0] + "*" + word[2:]
+    return str(word[0] + "*" + word[2:])
 
 #Previous versions of the code had another function that colculated the g_mer_count, but this method only requires looping through the comments once, which is quicker.
 #This basically gets the total karma of a user on a subreddit and divides by the number of comments made. It doesn't round right now because I think it shows a fuller picture like this.
