@@ -95,9 +95,6 @@ def get_g_mer_count_for_comment(comment_body):
 def censor_g_mer_words(word):
     return word[0] + "*" + word[2:]
 
-def create_g_mer_word_dictionary():
-
-
 #Previous versions of the code had another function that colculated the g_mer_count, but this method only requires looping through the comments once, which is quicker.
 #This basically gets the total karma of a user on a subreddit and divides by the number of comments made. It doesn't round right now because I think it shows a fuller picture like this.
 def test_g_mer(user, subreddit):
@@ -142,12 +139,13 @@ def reply_to_comment(message, mentions):
             parent_author = str(message.parent().author).lower()
             g_mer_score , avg_karma_in_subreddit , frequency_of_g_mer_words = test_g_mer(parent_author,message.subreddit)
             g_mer_name = "u/" + parent_author
-        #If test subject is u/g_merdetectorbot it replies with a custom message
+        #Creates table using markdown
         g_mer_word_table_string = "| Word | Count | \n\n ---------- \n\n"
         g_mer_words = frequency_of_g_mer_words.keys()
         g_mer_frequencies = frequency_of_g_mer_words.values()
         for x in range(len(g_mer_words)):
             g_mer_word_table_string += f"| {g_mer_words[x]} | {g_mer_frequencies(x)} | \n\n "
+        #If test subject is u/g_merdetectorbot it replies with a custom message
         if g_mer_name == "u/g_merdetectorbot":
             message.reply(f"**u/G_merDetectorBot** \n\n Check out the new subreddit: r/G_merDetectorBot \n\n [^How ^the ^bot ^works ](https://www.reddit.com/user/G_merDetectorBot/comments/gowq2d/) \n\n [^Words ^the ^bot ^detects ](https://www.reddit.com/user/G_merDetectorBot/comments/gowikd/) \n\n [^Message ^the ^creator ](https://www.reddit.com/message/compose/?to=abdeet) \n\n [^Github ^link](https://github.com/Abdeet/g_merdetectorbot)")
         #Same with if test subject is u/Abdeet
