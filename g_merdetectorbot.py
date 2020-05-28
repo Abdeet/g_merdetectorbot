@@ -158,8 +158,9 @@ def reply_to_comment(message, mentions):
         elif g_mer_name == "u/abdeet":
             message.reply(f"u/Abdeet created this bot. \n\n God says all g\*mers will rot. \n\n G\*ming is a sin, \n\n Anti-g\*ming will win, \n\n This limerick sure hits the spot. \n\n ^Check ^out ^the ^subreddit: ^r/G_merDetectorBot \n\n [Github link](https://github.com/Abdeet/g_merdetectorbot)")
         #Standard message
-        print(g_mer_score)
+        
         else:
+            print(g_mer_score)
             message.reply(f"**Suspected G\*mer: {g_mer_name}**\n\n  **G\*mer Score: _{g_mer_score}_** \n\n **Average Comment Score in r/{message.subreddit}: _{avg_karma_in_subreddit}_** \n\n {g_mer_word_table_string} \n\n Check out the subreddit: r/G_merDetectorBot \n\n ^Calculated ^using ^user's ^last ^100 ^comments, ^searching ^for [^these ^words ](https://www.reddit.com/user/G_merDetectorBot/comments/gowikd/) \n\n [^Send ^a ^private ^message ](https://www.reddit.com/message/compose/?to=abdeet) ^to ^suggest ^more ^words ^to ^add. \n\n ^Created ^to ^rid ^the ^world ^of ^the ^evils ^of ^g\*ming.")
 
 #Runs the code
