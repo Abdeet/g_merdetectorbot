@@ -91,7 +91,6 @@ def get_g_mer_count_for_comment(comment_body):
             g_mer_count += 1
             word = words_list[words_hashed.index(x)]
             g_mer_words_censored.append(censor_g_mer_words(word))
-    print("g_mer count: " + str(g_mer_count))
     return g_mer_count, g_mer_words_censored
 
 #New functionality to list g*mer words used
@@ -120,7 +119,6 @@ def test_g_mer(user, subreddit):
     frequency_of_g_mer_words = collections.Counter(censored_list)
     if comments_on_subreddit > 0:avg_comment_score_in_subreddit = total_karma_in_comments_on_subreddit / comments_on_subreddit 
     else: avg_comment_score_in_subreddit = 0
-    print("total g count: " + str(total_g_mer_count))
     return total_g_mer_count, avg_comment_score_in_subreddit, frequency_of_g_mer_words
 
 
@@ -148,13 +146,11 @@ def reply_to_comment(message, mentions):
         #Creates table using markdown if there are words to make table with
         g_mer_word_table_string = ""
         if(g_mer_score > 0):
-            g_mer_word_table_string = "| Word | Count | \n\n ---------- \n\n"
+            g_mer_word_table_string = "| Word | Count | \n|-----|-----| \n"
             g_mer_words = list(frequency_of_g_mer_words.keys())
             g_mer_frequencies = list(frequency_of_g_mer_words.values())
-            print(g_mer_words)
-            print(g_mer_frequencies)
             for x in range(len(g_mer_words)):
-                g_mer_word_table_string += f"| {g_mer_words[x]} | {g_mer_frequencies[x]} | \n\n "
+                g_mer_word_table_string += f"| {g_mer_words[x]} | {g_mer_frequencies[x]} | \n "
         #If test subject is u/g_merdetectorbot it replies with a custom message
         if g_mer_name == "u/g_merdetectorbot":
             message.reply(f"**u/G_merDetectorBot** \n\n Check out the new subreddit: r/G_merDetectorBot \n\n [^How ^the ^bot ^works ](https://www.reddit.com/user/G_merDetectorBot/comments/gowq2d/) \n\n [^Words ^the ^bot ^detects ](https://www.reddit.com/user/G_merDetectorBot/comments/gowikd/) \n\n [^Message ^the ^creator ](https://www.reddit.com/message/compose/?to=abdeet) \n\n [^Github ^link](https://github.com/Abdeet/g_merdetectorbot)")
@@ -164,7 +160,6 @@ def reply_to_comment(message, mentions):
         #Standard message
         
         else:
-            print("g score: " + str(g_mer_score))
             message.reply(f"**Suspected G\*mer: {g_mer_name}**\n\n  **G\*mer Score: _{g_mer_score}_** \n\n **Average Comment Score in r/{message.subreddit}: _{avg_karma_in_subreddit}_** \n\n {g_mer_word_table_string} \n\n Check out the subreddit: r/G_merDetectorBot \n\n ^Calculated ^using ^user's ^last ^100 ^comments, ^searching ^for [^these ^words ](https://www.reddit.com/user/G_merDetectorBot/comments/gowikd/) \n\n [^Send ^a ^private ^message ](https://www.reddit.com/message/compose/?to=abdeet) ^to ^suggest ^more ^words ^to ^add. \n\n ^Created ^to ^rid ^the ^world ^of ^the ^evils ^of ^g\*ming.")
 
 #Runs the code
