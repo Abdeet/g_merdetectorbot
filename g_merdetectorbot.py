@@ -79,18 +79,19 @@ def get_g_mer_count_for_comment(comment_body):
     g_mer_count = 0
     #This RegEx gets all the words from the comment. The downside is it prevents me from searching for multi word phrases. I could modify it to work for that but I don't really want to.
     words = re.finditer(r'[a-zA-Z]+',comment_body.lower())
-    words_list = {x for x in words}
+    words_list = []
     words_hashed = [] 
     g_mer_words_censored = []
     for x in words:
         #This just takes every single word in the comment and converts it to a hash
+        words_list.append(x)
         words_hashed.append(str(hashlib.sha256(x[0].strip().encode()).hexdigest()))
     for x in words_hashed:
         if x in g_mer_hashes:
             g_mer_count += 1
         word = words_list[words_hashed.index(x)]
         g_mer_words_censored.append(censor_g_mer_words(word))
-    print(g_mer_count)
+    print("g_mer count: " + g_mer_count)
     return g_mer_count, g_mer_words_censored
 
 #New functionality to list g*mer words used
@@ -118,7 +119,7 @@ def test_g_mer(user, subreddit):
     frequency_of_g_mer_words = collections.Counter(censored_list)
     if comments_on_subreddit > 0:avg_comment_score_in_subreddit = total_karma_in_comments_on_subreddit / comments_on_subreddit 
     else: avg_comment_score_in_subreddit = 0
-    print(total_g_mer_count)
+    print("total g count: " + total_g_mer_count)
     return total_g_mer_count, avg_comment_score_in_subreddit, frequency_of_g_mer_words
 
 
@@ -160,7 +161,7 @@ def reply_to_comment(message, mentions):
         #Standard message
         
         else:
-            print(g_mer_score)
+            print("g score: " + g_mer_score)
             message.reply(f"**Suspected G\*mer: {g_mer_name}**\n\n  **G\*mer Score: _{g_mer_score}_** \n\n **Average Comment Score in r/{message.subreddit}: _{avg_karma_in_subreddit}_** \n\n {g_mer_word_table_string} \n\n Check out the subreddit: r/G_merDetectorBot \n\n ^Calculated ^using ^user's ^last ^100 ^comments, ^searching ^for [^these ^words ](https://www.reddit.com/user/G_merDetectorBot/comments/gowikd/) \n\n [^Send ^a ^private ^message ](https://www.reddit.com/message/compose/?to=abdeet) ^to ^suggest ^more ^words ^to ^add. \n\n ^Created ^to ^rid ^the ^world ^of ^the ^evils ^of ^g\*ming.")
 
 #Runs the code
