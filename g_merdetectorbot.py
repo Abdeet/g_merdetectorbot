@@ -140,12 +140,13 @@ def reply_to_comment(message, mentions):
             parent_author = str(message.parent().author).lower()
             g_mer_score , avg_karma_in_subreddit , frequency_of_g_mer_words = test_g_mer(parent_author,message.subreddit)
             g_mer_name = "u/" + parent_author
-        #Creates table using markdown
-        g_mer_word_table_string = "| Word | Count | \n\n ---------- \n\n"
-        g_mer_words = frequency_of_g_mer_words.keys()
-        g_mer_frequencies = frequency_of_g_mer_words.values()
-        for x in range(len(g_mer_words)):
-            g_mer_word_table_string += f"| {g_mer_words[x]} | {g_mer_frequencies(x)} | \n\n "
+        #Creates table using markdown if there are words to make table with
+        if(g_mer_score > 0):
+            g_mer_word_table_string = "| Word | Count | \n\n ---------- \n\n"
+            g_mer_words = frequency_of_g_mer_words.keys()
+            g_mer_frequencies = frequency_of_g_mer_words.values()
+            for x in range(len(g_mer_words)):
+                g_mer_word_table_string += f"| {g_mer_words[x]} | {g_mer_frequencies(x)} | \n\n "
         #If test subject is u/g_merdetectorbot it replies with a custom message
         if g_mer_name == "u/g_merdetectorbot":
             message.reply(f"**u/G_merDetectorBot** \n\n Check out the new subreddit: r/G_merDetectorBot \n\n [^How ^the ^bot ^works ](https://www.reddit.com/user/G_merDetectorBot/comments/gowq2d/) \n\n [^Words ^the ^bot ^detects ](https://www.reddit.com/user/G_merDetectorBot/comments/gowikd/) \n\n [^Message ^the ^creator ](https://www.reddit.com/message/compose/?to=abdeet) \n\n [^Github ^link](https://github.com/Abdeet/g_merdetectorbot)")
