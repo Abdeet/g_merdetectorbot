@@ -171,3 +171,8 @@ def main():
 
 #Calls main, and basically all the other code
 main()
+
+
+
+#Regex from u/HDMemes. It isn't currently compatible with the way detection is done right now, but if I decide to streamline the bot this is definitely going to be useful
+#(\b((g+[\W_]*)+(a+[\W_]*)+(m+[\W_]*)+(((e+[\W_]*)+(r+[\W_]*)*(s+[\W_]*)*)|((i+[\W_]*)+(n+[\W_]*)+(g+[\W_]*)+)))\b|\b((k+[\W_]*)+(a+[\W_]*)+(r+[\W_]*)+(e+[\W_]*)+(n+[\W_]*)+)\b|\b((b+[\W_]*)+(o+[\W_]*){2,}(m+[\W_]*)+(e+[\W_]*)+(r+[\W_]*)+)\b|\b((n+[\W_]*)+(i+[\W_]*)+(g+[\W_]*){2,}(((e+[\W_]*)+(r+[\W_]*)+)|(a+[\W_]*)+))\b|\b((f+[\W_]*)+(a+[\W_]*)+(g+[\W_]*){2,}(o+[\W_]*)+(t+[\W_]*)+)\b|\b((x+[\W_]*)+(b+[\W_]*)+(o+[\W_]*)+(x+[\W_]*)+)\b|\b((p+[\W_]*)+(l+[\W_]*)+(a+[\W_]*)+(y+[\W_]*)+(s+[\W_]*)+(t+[\W_]*)+(a+[\W_]*)+(t+[\W_]*)+(i+[\W_]*)+(o+[\W_]*)+(n+[\W_]*)+)\b|\b((n+[\W_]*)+(i+[\W_]*)+(n+[\W_]*)+(t+[\W_]*)+(e+[\W_]*)+(n+[\W_]*)+(d+[\W_]*)+(o+[\W_]*)+)\b)
