@@ -165,8 +165,11 @@ def reply_to_comment(message, mentions):
 #Runs the code
 def main():
     for message in reddit.inbox.unread():
-        all_mentions = get_mentions(message.body.lower())
-        reply_to_comment(message, all_mentions)
+        try:
+            all_mentions = get_mentions(message.body.lower())
+            reply_to_comment(message, all_mentions)
+        except:
+            continue
         message.mark_read()
 
 #Calls main, and basically all the other code
